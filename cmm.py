@@ -3,6 +3,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pickle
 
+file_path = r"F:\Guvi\youtube_ad_revenue_dataset.csv"
+df = pd.read_csv(file_path)
+df.head()
+
+
 model = pickle.load(
     open('youtube_revenue_model.pkl', 'rb')
 )
@@ -110,7 +115,26 @@ elif page == "Model Performance":
     - Mobile users showed higher revenue contribution compared to TV users.
     - India showed the strongest positive contribution among countries.
     """)
-    
+
+    st.subheader("Watch Time vs Revenue")
+
+    sample_df = df.sample(3000, random_state=42)
+
+    fig, ax = plt.subplots(figsize=(8,5))
+
+    ax.scatter(
+        sample_df['watch_time_minutes'],
+        sample_df['ad_revenue_usd'],
+        alpha=0.4
+    )
+
+    ax.set_xlabel("Watch Time Minutes")
+    ax.set_ylabel("Revenue (USD)")
+    ax.set_title("Watch Time vs Revenue")
+
+    st.pyplot(fig)
+        
+
     results = pd.DataFrame({
     'Model': [
         'Linear Regression',
